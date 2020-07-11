@@ -11,18 +11,13 @@ public class EmailClient
     // The email currently displayed in the inbox area
     private Email activeEmail;
 
-    // The text that the user has typed. Updates in real time
-    private StringBuilder userTypedText;
-
-    // The current position of the user's cursor
-    private int cursorPosition;
+    // The index of the current active email
+    private int activeEmailIndex;
 
     public EmailClient()
     {
         this.inbox = new List<Email>();
         this.activeEmail = null;
-        this.userTypedText = new StringBuilder();
-        this.cursorPosition = 0;
     }
 
     /// <summary>
@@ -31,23 +26,7 @@ public class EmailClient
     /// <param name="character">The character to add</param>
     public void addCharacter(char character)
     {
-        this.userTypedText.Append(character);
-    }
-
-    /// <summary>
-    /// Moves the user's cursor one spot, as long as it isn't at either end
-    /// </summary>
-    /// <param name="left"></param>
-    public void moveCursor(bool left)
-    {
-        if (left && this.cursorPosition > 0)
-        {
-            this.cursorPosition -= 1;
-        }
-        else if (this.cursorPosition < this.userTypedText.Length)
-        {
-            this.cursorPosition += 1;
-        }
+        this.activeEmail.addCharacterToUserInput(character);
     }
 
     /// <summary>
@@ -60,12 +39,22 @@ public class EmailClient
     }
 
     /// <summary>
-    /// Sets the active email to the first email in the inbox
+    /// Sets the active email to be either one up or down
     /// </summary>
-    public void setActiveEmailToFirstEmail()
+    /// <param name="up"></param>
+    public void setNextEmailActive(bool up)
     {
-        this.activeEmail = inbox[0];
+        if (up && activeEmailIndex > 0)
+        {
+            activeEmailIndex--;
+        }
+        else if (!up && activeEmailIndex < this.inbox.Count)
+        {
+            activeEmailIndex++;
+        }
+        this.setActiveEmail(inbox[activeEmailIndex]);
     }
+
 
     /// <summary>
     /// Gets the currently active email
@@ -94,7 +83,7 @@ public class EmailClient
     /// </summary>
     public int submitEmail()
     {
-        string userInput = this.userTypedText.ToString();
+        string userInput = this.activeEmail.getUserText();
         Email e = this.getActiveEmail();
         // Check to see if keywords are included
         bool keywordMatch = e.hasKeywords(userInput);
@@ -114,21 +103,6 @@ public class EmailClient
             this.inbox.Add(e);
         }
 
-        // Make the first remaining email the active email
-        this.setActiveEmailToFirstEmail();
-
-        // Clear the user's typed area
-        this.userTypedText = new StringBuilder();
-
         return scoreModifier;
-    }
-
-    /// <summary>
-    /// Returns the text the user has typed
-    /// </summary>
-    /// <returns>The string representation of what the user typed</returns>
-    public string getUserText()
-    {
-        return this.userTypedText.ToString();
     }
 }

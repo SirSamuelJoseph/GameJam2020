@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class Email
@@ -23,6 +24,8 @@ public class Email
     private string[] keywords;
     // If the user sends a response without the keywords, the email re-appears in the inbox with this body
     private string badResponseBody;
+    // The text the user has type
+    private StringBuilder userText;
 
     const int KEYWORD_SCORE_VALUE = 3;
     const int BAD_KEYWORDS_SCORE_VALUE = -5;
@@ -209,5 +212,31 @@ public class Email
     public void setReplied()
     {
         this.replied = true;
+    }
+
+    /// <summary>
+    /// Adds the given character to the user input string
+    /// </summary>
+    /// <param name="c">The character to add</param>
+    public void addCharacterToUserInput(Char c)
+    {
+        this.userText.Append(c);
+    }
+
+    /// <summary>
+    /// Returns the text in the user typed box
+    /// </summary>
+    /// <returns>The user text</returns>
+    public string getUserText()
+    {
+        return this.userText.ToString();
+    }
+
+    /// <summary>
+    /// Resets the user text 
+    /// </summary>
+    public void resetUserText()
+    {
+        this.userText = new StringBuilder();
     }
 }
