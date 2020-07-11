@@ -118,6 +118,33 @@ public class Email
     }
 
     /// <summary>
+    /// Returns the response the user is to type
+    /// </summary>
+    /// <returns>Returns the user response prompt text</returns>
+    public string getResponseBody()
+    {
+        return this.responseBody;
+    }
+
+    /// <summary>
+    /// Returns true if this email has been opened
+    /// </summary>
+    /// <returns>True if this email has been opened</returns>
+    public bool hasBeenOpened()
+    {
+        return this.opened;
+    }
+
+    /// <summary>
+    /// Returns true if the user replied to this email
+    /// </summary>
+    /// <returns>True if the user replied to this email</returns>
+    public bool hasBeenRepliedTo()
+    {
+        return this.replied;
+    }
+
+    /// <summary>
     /// Returns true if the user inputted string has the required keywords
     /// </summary>
     /// <param name="userInput">The string the user inputted</param>
