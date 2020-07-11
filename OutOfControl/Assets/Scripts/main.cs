@@ -45,12 +45,6 @@ public class main : MonoBehaviour
         {
             gameOver();
         }
-
-        string body = this.client.getActiveEmail().getEmailBody();
-        activeEmailBodyLocation.text = body;
-        activeEmailSenderLocation.text = this.client.getActiveEmail().getSender();
-        activeEmailSubjectLocation.text = this.client.getActiveEmail().getSubject();
-        userInputBox.text = this.client.getUserText();
     }
 
     /// <summary>
