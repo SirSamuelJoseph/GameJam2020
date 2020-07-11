@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ public class main : MonoBehaviour
     public Text activeEmailBodyLocation;
     public Text activeEmailSenderLocation;
     public Text activeEmailSubjectLocation;
-    public Button nextEmailButton;
+    public Text userInputBox;
     public int score;
 
 
@@ -24,6 +25,21 @@ public class main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.anyKeyDown)
+        {
+            string s = Input.inputString;
+            Debug.Log(s.Length);
+
+            if (s == "\r") {
+                this.submitCurrentEmail();
+                Debug.Log("Submitted");
+            }
+
+            foreach(char c in s)
+            {
+                this.client.addCharacter(c);
+            }
+        }
 
         if (score < 0)
         {
@@ -32,9 +48,9 @@ public class main : MonoBehaviour
 
         string body = this.client.getActiveEmail().getEmailBody();
         activeEmailBodyLocation.text = body;
-        Debug.Log(this.client.getActiveEmail().getSender());
         activeEmailSenderLocation.text = this.client.getActiveEmail().getSender();
         activeEmailSubjectLocation.text = this.client.getActiveEmail().getSubject();
+        userInputBox.text = this.client.getUserText();
     }
 
     /// <summary>

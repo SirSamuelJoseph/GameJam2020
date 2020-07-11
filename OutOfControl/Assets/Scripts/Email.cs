@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,8 +24,12 @@ public class Email
     // If the user sends a response without the keywords, the email re-appears in the inbox with this body
     private string badResponseBody;
 
+    const int KEYWORD_SCORE_VALUE = 3;
+    const int BAD_KEYWORDS_SCORE_VALUE = -5;
+    const int NON_KEYWORD_SCORE_VALUE = 1;
+    const int BAD_WORD_SCORE_VALUE = -2;
 
-    private int counter = 0;
+
 
     /// <summary>
     /// Creates a new email, assumed to be unopened and unreplied-to
@@ -34,7 +39,7 @@ public class Email
     /// <param name="emailBody"></param>
     /// <param name="responseBody"></param>
     /// <param name="badResponseBody"></param>
-    public Email(string sender, string previewText, string emailBody, string responseBody, string badResponseBody, string subject)
+    public Email(string sender, string previewText, string emailBody, string responseBody, string badResponseBody, string subject, string[] keywords)
     {
         this.sender = sender;
         this.opened = false;
@@ -44,6 +49,7 @@ public class Email
         this.responseBody = responseBody;
         this.badResponseBody = badResponseBody;
         this.subject = subject;
+        this.keywords = keywords;
 
     }
 
@@ -57,6 +63,7 @@ public class Email
         this.responseBody = "type this";
         this.badResponseBody = "bad boy";
         this.subject = "facts";
+        this.keywords = new string[] { "numb"};
 
     }
 
@@ -70,6 +77,7 @@ public class Email
         this.responseBody = "type this";
         this.badResponseBody = "bad boy";
         this.subject = "facts";
+        this.keywords = new string[] { "numb" };
 
     }
 
@@ -133,6 +141,38 @@ public class Email
     /// <returns></returns>
     public int scoreResponse(string userInput)
     {
+
+        int tempscore = 0;
+
+        string[] userTokens = userInput.Split(' ');
+        string[] masterTokens = this.responseBody.Split(' ');
+
+
+        // First, give points if all keywords are present
+        if (this.hasKeywords(userInput))
+        {
+            tempscore += KEYWORD_SCORE_VALUE;
+        }
+        else
+        {
+            tempscore += BAD_KEYWORDS_SCORE_VALUE;
+        }
+
+        // Check the whole list, not just the keywords
+        foreach(string token in userTokens)
+        {
+            // Check to see if the master list has the user token
+            if (Array.Exists(masterTokens, (a) => { return a == token; }))
+            {
+                tempscore += NON_KEYWORD_SCORE_VALUE;
+            }
+            // If it doesn't, subtract for this word and move on
+            else
+            {
+                tempscore += BAD_WORD_SCORE_VALUE;
+            }
+        }
+
         return 1;
     }
 

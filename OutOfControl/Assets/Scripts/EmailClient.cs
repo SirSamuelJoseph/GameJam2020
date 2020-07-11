@@ -117,6 +117,18 @@ public class EmailClient
         // Make the first remaining email the active email
         this.setActiveEmailToFirstEmail();
 
+        // Clear the user's typed area
+        this.userTypedText = new StringBuilder();
+
         return scoreModifier;
+    }
+
+    /// <summary>
+    /// Returns the text the user has typed
+    /// </summary>
+    /// <returns>The string representation of what the user typed</returns>
+    public string getUserText()
+    {
+        return this.userTypedText.ToString();
     }
 }
