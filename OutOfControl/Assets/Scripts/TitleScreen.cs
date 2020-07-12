@@ -9,6 +9,7 @@ public class TitleScreen : MonoBehaviour
     public Button startGame;
     public Button credits;
     public Button gimmeCat;
+    public TitleScreenCat cat;
 
     // Start is called before the first frame update
     void Start()
@@ -20,18 +21,26 @@ public class TitleScreen : MonoBehaviour
 
         credits.onClick.AddListener(() =>
         {
-
+            SceneManager.LoadScene("Credits", LoadSceneMode.Single);
         });
 
         gimmeCat.onClick.AddListener(() =>
         {
+            cat.enableCat();
 
+            if (gimmeCat.GetComponentInChildren<Text>().text == "Gimme Cat now")
+            {
+                cat.enableCat();
+                gimmeCat.GetComponentInChildren<Text>().text = "Scat, cat!";
+            }
+            else
+            {
+                gimmeCat.GetComponentInChildren<Text>().text = "Gimme Cat now";
+                cat.disableCat();
+            }
+
+            
         });
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
