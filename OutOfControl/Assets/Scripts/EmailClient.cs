@@ -6,7 +6,7 @@ using UnityEngine;
 public class EmailClient
 {
     // The list of emails left to respond to
-    private List<Email> inbox;
+    private Email[] inbox;
 
     // The email currently displayed in the inbox area
     private Email activeEmail;
@@ -14,10 +14,13 @@ public class EmailClient
     // The index of the current active email
     private int activeEmailIndex;
 
-    public EmailClient()
+    public Initialization init;
+
+    public EmailClient(Initialization init)
     {
-        this.inbox = new List<Email>();
+        this.inbox = new Email[2];
         this.activeEmail = null;
+        this.init = init;
     }
 
     /// <summary>
@@ -48,7 +51,7 @@ public class EmailClient
         {
             activeEmailIndex--;
         }
-        else if (!up && activeEmailIndex < this.inbox.Count)
+        else if (!up && activeEmailIndex < this.inbox.Length)
         {
             activeEmailIndex++;
         }
@@ -71,7 +74,8 @@ public class EmailClient
     /// <param name="e">The email to add to the box</param>
     public void addEmailToInbox(Email e)
     {
-        this.inbox.Add(e);
+        int senderIndex = this.senderNameToInboxPosition(e.getSender());
+        this.inbox[senderIndex] = e;
         if (this.activeEmail == null)
         {
             this.activeEmail = e;
@@ -87,22 +91,39 @@ public class EmailClient
         Email e = this.getActiveEmail();
         // Check to see if keywords are included
         bool keywordMatch = e.hasKeywords(userInput);
+        Debug.Log("Keyboard Match? " + keywordMatch);
 
         //Score this email
         int scoreModifier = e.scoreResponse(userInput);
-        //TODO: Do something with the score
 
-        // Remove it from the inbox
-        inbox.Remove(e);
-
-        if (!keywordMatch)
+        if (!keywordMatch && !e.hasBeenRepliedTo())
         {
+            // Add this email to the inbox so they have to deal with it again
             // Set replied 
             e.setReplied();
-            // Add this email to the inbox so they have to deal with it again
-            this.inbox.Add(e);
+            init.waitAndSend(3f, e);
+        }
+        else
+        {
+            int senderIndex = this.senderNameToInboxPosition(e.getSender());
+            init.sendNextEmailInChain(senderIndex);
+
         }
 
+
         return scoreModifier;
+    }
+
+    private int senderNameToInboxPosition(string senderName)
+    {
+        switch(senderName)
+        {
+            case "Roomie":
+                return 0;
+            case "Bart Burly":
+                return 1;
+            default:
+                return -1;
+        }
     }
 }

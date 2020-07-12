@@ -12,14 +12,18 @@ public class main : MonoBehaviour
     public Text activeEmailSubjectLocation;
     public Text userInputBox;
     public int score;
+    public Initialization init;
+    public NoiseManager sounds;
+
+    const int NUMBER_OF_CONTACTS = 2;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        this.client = new EmailClient();
-        this.client.addEmailToInbox(new Email());
+        this.score = 100;
+        this.client = new EmailClient(init);
     }
 
     // Update is called once per frame
@@ -53,6 +57,7 @@ public class main : MonoBehaviour
     public void submitCurrentEmail()
     {
         score += this.client.submitEmail();
+        Debug.Log(score);
     }
 
     /// <summary>
@@ -62,4 +67,17 @@ public class main : MonoBehaviour
     {
 
     }
+
+    public void addEmailToEmailClientInbox(Email e)
+    {
+        this.client.addEmailToInbox(e);
+        sounds.playNewEmailNoise();
+        Debug.Log(e.hasBeenRepliedTo());
+    }
+
+    public void setNextEmailActive(bool up)
+    {
+        this.client.setNextEmailActive(up);
+    }
+
 }

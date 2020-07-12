@@ -53,34 +53,7 @@ public class Email
         this.badResponseBody = badResponseBody;
         this.subject = subject;
         this.keywords = keywords;
-
-    }
-
-    public Email()
-    {
-        this.sender = "A";
-        this.opened = false;
-        this.replied = false;
-        this.previewText = "prev";
-        this.emailBody = "bod";
-        this.responseBody = "type this";
-        this.badResponseBody = "bad boy";
-        this.subject = "facts";
-        this.keywords = new string[] { "numb"};
-
-    }
-
-    public Email(bool t)
-    {
-        this.sender = "B";
-        this.opened = false;
-        this.replied = false;
-        this.previewText = "prev";
-        this.emailBody = "bod";
-        this.responseBody = "type this";
-        this.badResponseBody = "bad boy";
-        this.subject = "facts";
-        this.keywords = new string[] { "numb" };
+        this.userText = new StringBuilder();
 
     }
 
@@ -203,7 +176,8 @@ public class Email
             }
         }
 
-        return 1;
+        Debug.Log(keywords.Length);
+        return tempscore;
     }
 
     /// <summary>

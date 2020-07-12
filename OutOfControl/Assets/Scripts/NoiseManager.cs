@@ -6,6 +6,7 @@ public class NoiseManager : MonoBehaviour
 {
 
     public AudioSource[] catNoises;
+    public AudioSource newEmailNoise;
 
 
     /// <summary>
@@ -25,6 +26,12 @@ public class NoiseManager : MonoBehaviour
     public void playCatNoise()
     {
         this.playNoise(catNoises);
+    }
+
+    public void playNewEmailNoise()
+    {
+        this.newEmailNoise.Play();
+        
     }
 
 
