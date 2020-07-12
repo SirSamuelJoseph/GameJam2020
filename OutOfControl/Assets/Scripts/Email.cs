@@ -213,4 +213,13 @@ public class Email
     {
         this.userText = new StringBuilder();
     }
+
+    public void backspace()
+    {
+
+        if (this.userText.Length > 0)
+        {
+            this.userText.Remove(this.userText.Length - 1, 1);
+        }
+    }
 }

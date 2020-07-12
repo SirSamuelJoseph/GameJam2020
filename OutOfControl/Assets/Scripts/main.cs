@@ -7,9 +7,6 @@ using UnityEngine.UI;
 public class main : MonoBehaviour
 {
     private EmailClient client;
-    public Text activeEmailBodyLocation;
-    public Text activeEmailSenderLocation;
-    public Text activeEmailSubjectLocation;
     public Text userInputBox;
     public int score;
     public Initialization init;
@@ -29,20 +26,33 @@ public class main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        userInputBox.text = this.client.getActiveEmail().getUserText();
         if (Input.anyKeyDown)
         {
-            string s = Input.inputString;
-            Debug.Log(s.Length);
-
-            if (s == "\r") {
-                this.submitCurrentEmail();
-                Debug.Log("Submitted");
-            }
-
-            foreach(char c in s)
+            while (Input.GetKey(KeyCode.Backspace))
             {
-                this.client.addCharacter(c);
+                this.client.backspace();
             }
+
+            foreach(char c in Input.inputString)
+            {
+                if (c == '\b')
+                {
+                    this.client.backspace();
+                    Debug.Log("back");
+                }
+                else if (c == '\r')
+                {
+                    this.submitCurrentEmail();
+                    Debug.Log("Submitted");
+                }
+                else
+                {
+                    this.client.addCharacter(c);
+                }
+            }
+
+            userInputBox.text = this.client.getActiveEmail().getUserText();
         }
 
         if (score < 0)

@@ -126,4 +126,9 @@ public class EmailClient
                 return -1;
         }
     }
+
+    public void backspace()
+    {
+        this.activeEmail.backspace();
+    }
 }
