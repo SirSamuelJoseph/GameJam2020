@@ -14,6 +14,8 @@ public class Initialization : MonoBehaviour
     private List<Email> boss;
     private List<Email> roomie;
 
+    private int activeContacts;
+
     public main main;
 
     public int numberOfEmailsSent = 0;
@@ -27,6 +29,7 @@ public class Initialization : MonoBehaviour
         bartBurley = new List<Email>();
 
         this.emailMasterList[1] = bartBurley;
+        activeContacts = 2;
 
     }
 
@@ -42,11 +45,29 @@ public class Initialization : MonoBehaviour
         {
             Email t1;
 
-            t1 = new Email("Roomie", "Welcome!", "Welcome to the office! Here are some instructions.", "I'm <b><color=red>excited</color></b> to <b><color=red>start</color></b> learning and <b><color=red>working</color></b>!", "", "", new string[] { "excited", "start", "working" });
+            t1 = new Email("Roomie", "Welcome to the office! Here are some instructions.", "I'm <b><color=red>excited</color></b> to <b><color=red>start</color></b> learning and <b><color=red>working</color></b>!", "", new string[] { "excited", "start", "working" });
 
             //this.sendNextEmailToInbox(t1);
 
             Email t2;
+        } else
+        {
+            if (numberOfEmailsSent == 2)
+            {
+                this.activeContacts += 1;
+            }
+            else if (numberOfEmailsSent == 5)
+            {
+                this.activeContacts += 1;
+            }
+            else if (numberOfEmailsSent == 9)
+            {
+                this.activeContacts += 1;
+            }
+            else if (numberOfEmailsSent > 9)
+            {
+                this.activeContacts = 6;
+            }
         }
     }
 
@@ -59,14 +80,6 @@ public class Initialization : MonoBehaviour
     public void initializeBart()
     {
 
-        Email b1 = new Email("Bart Burly", "", "I know you’re new here, and working from home, but don’t you dare come into the office and take my burritos out of the fridge. They're mine! I love burritos! Promise you won’t take my burritos! Sincerely, Bart Burly", "Bart, I solemnly swear to not eat your burritos! I’m excited to be on the time and look forward to working with you. Sincerely, Link", "My Burritos", "", new string[] { "swear", "eat", "burritos", "not" });
-        Email b2 = new Email("Bart Burly", "", "Hey, so I know you are work from home and all, but I just want you to know how much burritos mean to me. All I can think about is the sweet smell of peppers, the oozy cheese. I can’t focus on work now! You better not take my burritos!", "Bart, I can assure you that as I work from home, I will not come into the office and take your burritos. I too partake in the occasional burrito at my own behest. Best, Link.", "My Burritos", "What kind of professionalism is this? You think it reasonable to respond with typos?!? To a topic so important as flour tortillas and sweet sweet salsa? You need to promise me you’re not going to take my burritos!", new string[] {"not", "office", "eat", "your", "burrito" });
-
-
-        bartBurley.Add(b1);
-        bartBurley.Add(b2);
-
-        sendNextEmailToInbox(b1);
     }
 
     public void sendNextEmailToInbox(Email e)

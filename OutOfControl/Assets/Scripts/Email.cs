@@ -42,16 +42,14 @@ public class Email
     /// <param name="emailBody"></param>
     /// <param name="responseBody"></param>
     /// <param name="badResponseBody"></param>
-    public Email(string sender, string previewText, string emailBody, string responseBody, string badResponseBody, string subject, string[] keywords)
+    public Email(string sender, string emailBody, string responseBody, string badResponseBody, string[] keywords)
     {
         this.sender = sender;
         this.opened = false;
         this.replied = false;
-        this.previewText = previewText;
         this.emailBody = emailBody;
         this.responseBody = responseBody;
         this.badResponseBody = badResponseBody;
-        this.subject = subject;
         this.keywords = keywords;
         this.userText = new StringBuilder();
 
