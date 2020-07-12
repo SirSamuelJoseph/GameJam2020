@@ -13,10 +13,10 @@ public class Cat : MonoBehaviour
 
     public NoiseManager sound;
 
-    const int addCharacterChances = 50;
-    const int changeEmailChances = 35;
+    const int addCharacterChances = 10;
+    const int changeEmailChances = 15;
     const int catNoiseNoAction = 10;
-    const int emailSubmission = 5;
+    const int emailSubmission = 15;
 
     private Vector2 catPosition;
     private Vector2 nextCatPosition;
@@ -79,8 +79,7 @@ public class Cat : MonoBehaviour
             // Plays a random cat noise
             sound.playCatNoise();
 
-            //if (catAction < addCharacterChances)
-            if (true)
+            if (catAction < addCharacterChances)
             {
                 StartCoroutine(MoveCat());
 
@@ -94,23 +93,26 @@ public class Cat : MonoBehaviour
             {
                 float upOrDown = Random.Range(0, 2);
 
-                // The furthest right spot
-                this.nextCatPosition.x = 5;
-                this.nextCatPosition.y = 1;
+                Vector2 arrowPos = GameObject.FindGameObjectWithTag(this.tagsheet[3, 1]).transform.position;
 
-                this.main.setNextEmailActive(upOrDown == 1);
+                StartCoroutine(MoveCat((int)arrowPos.x, (int)arrowPos.y));
+
+                //this.main.setNextEmailActive(upOrDown == 1);
                 Debug.Log("Change email");
             }
             else if (catAction < addCharacterChances + changeEmailChances + catNoiseNoAction)
             {
                 Debug.Log("Noise");
+                StartCoroutine(CatsMeow());
             }
             else if (catAction < addCharacterChances + changeEmailChances + catNoiseNoAction + emailSubmission)
             {
                 Debug.Log("Submit");
+                Vector2 enterPos = GameObject.FindGameObjectWithTag(this.tagsheet[3, 0]).transform.position;
+                StartCoroutine(MoveCat((int)enterPos.x, (int)enterPos.y));
                 // The furthest right spot
-                this.nextCatPosition.x = 5;
-                this.nextCatPosition.y = 1;
+                //this.nextCatPosition.x = 5;
+                //this.nextCatPosition.y = 1;
 
                 //this.client.submitEmail();
             }
@@ -145,23 +147,104 @@ public class Cat : MonoBehaviour
         }
     }
 
-    public IEnumerator MoveCat()
+    public IEnumerator CatsMeow()
     {
+        if (this.catSprites[0].GetComponent<SpriteRenderer>().enabled)
+        {
+            this.catSprites[0].GetComponent<SpriteRenderer>().enabled = false;
+            this.catSprites[4].GetComponent<SpriteRenderer>().enabled = true;
 
-        // Random spots
-        this.nextCatPosition.x = Random.Range(0, 3);
-        this.nextCatPosition.y = Random.Range(0, 3);
+        }
+        else
+        {
+            this.catSprites[1].GetComponent<SpriteRenderer>().enabled = false;
+            this.catSprites[5].GetComponent<SpriteRenderer>().enabled = true;
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        if (this.catSprites[4].GetComponent<SpriteRenderer>().enabled)
+        {
+            this.catSprites[4].GetComponent<SpriteRenderer>().enabled = false;
+            this.catSprites[0].GetComponent<SpriteRenderer>().enabled = true;
+
+        }
+        else
+        {
+            this.catSprites[5].GetComponent<SpriteRenderer>().enabled = false;
+            this.catSprites[1].GetComponent<SpriteRenderer>().enabled = true;
+        }
+    }
+
+    public IEnumerator MoveCat(int x = -1, int y = -1)
+    {
+        Vector2 newLocation;
+        // If no values supplied, find a new spot
+        if (x == -1)
+        {
+            // Random spots
+            this.nextCatPosition.x = Random.Range(0, 3);
+            this.nextCatPosition.y = Random.Range(0, 3);
+
+            string locationTag = tagsheet[(int)nextCatPosition.x, (int)nextCatPosition.y];
+            newLocation = GameObject.FindGameObjectWithTag(locationTag).transform.position;
+        }
+        else
+        {
+            this.nextCatPosition.x = x;
+            this.nextCatPosition.y = y;
+            newLocation = new Vector2(x, y);
+        }
+
+
+        if (this.nextCatPosition.x == this.catSprite.transform.position.x && this.nextCatPosition.y == this.catSprite.transform.position.y)
+        {
+            yield break;
+        }
 
         this.getCatReadyForJump();
         Debug.Log("switchPosifShould");
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         Debug.Log("changePos");
+        Debug.Log("Coords: " + this.nextCatPosition.x + " " + this.nextCatPosition.y);
 
         this.catPosition = new Vector2(this.nextCatPosition.x, this.nextCatPosition.y);
 
-        string locationTag = tagsheet[(int)nextCatPosition.x, (int)nextCatPosition.y];
-        Vector2 location = GameObject.FindGameObjectWithTag(locationTag).transform.position;
-        this.catSprite.transform.position = location;
+        Vector2 oldPosition = this.catSprite.transform.position;
+
+        if (this.catSprites[0].GetComponent<SpriteRenderer>().enabled)
+        {
+            this.catSprites[0].GetComponent<SpriteRenderer>().enabled = false;
+            this.catSprites[2].GetComponent<SpriteRenderer>().enabled = true;
+
+        }
+        else
+        {
+            this.catSprites[1].GetComponent<SpriteRenderer>().enabled = false;
+            this.catSprites[3].GetComponent<SpriteRenderer>().enabled = true;
+        }
+
+
+        for(float f = 0; f < 1; f+= .05f)
+        {
+            Vector2 halfway = Vector2.Lerp(oldPosition, newLocation, f);
+            this.catSprite.transform.position = halfway;
+            yield return new WaitForSeconds(.005f);
+        }
+
+
+        this.catSprite.transform.position = newLocation;
+        if (this.catSprites[2].GetComponent<SpriteRenderer>().enabled)
+        {
+            this.catSprites[2].GetComponent<SpriteRenderer>().enabled = false;
+            this.catSprites[0].GetComponent<SpriteRenderer>().enabled = true;
+
+        }
+        else
+        {
+            this.catSprites[3].GetComponent<SpriteRenderer>().enabled = false;
+            this.catSprites[1].GetComponent<SpriteRenderer>().enabled = true;
+        }
     }
 
 }
