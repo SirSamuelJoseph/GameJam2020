@@ -37,6 +37,7 @@ public class Cat : MonoBehaviour
     private string[,] tagsheet;
 
     public GameObject[] catSprites;
+    public float catDelay;
 
 
     // Start is called before the first frame update
@@ -64,6 +65,7 @@ public class Cat : MonoBehaviour
         };
 
         this.tagsheet = tagsheet;
+        this.catDelay = 5;
 
     }
 
@@ -71,7 +73,7 @@ public class Cat : MonoBehaviour
     void Update()
     {
         timeSinceLastCatIncident += Time.deltaTime;
-        if (catChaosModeActive && timeSinceLastCatIncident > 5)
+        if (catChaosModeActive && timeSinceLastCatIncident > this.catDelay)
         {
             int sum = addCharacterChances + changeEmailChances + catNoiseNoAction + emailSubmission;
             int catAction = Random.Range(0, sum);
@@ -85,9 +87,8 @@ public class Cat : MonoBehaviour
 
                 string lettersToChoose = this.charsheet[(int)nextCatPosition.x, (int)nextCatPosition.y];
                 char charToAdd = lettersToChoose[Random.Range(0, lettersToChoose.Length)];
+                main.addCharToClient(charToAdd);
 
-                Debug.Log("X: " + nextCatPosition.x + " Y: " + nextCatPosition.y);
-                //Debug.Log("Char " + charToAdd);
             }
             else if (catAction < addCharacterChances + changeEmailChances)
             {
@@ -97,22 +98,15 @@ public class Cat : MonoBehaviour
 
                 StartCoroutine(MoveCat((int)arrowPos.x, (int)arrowPos.y));
 
-                //this.main.setNextEmailActive(upOrDown == 1);
-                Debug.Log("Change email");
             }
             else if (catAction < addCharacterChances + changeEmailChances + catNoiseNoAction)
             {
-                Debug.Log("Noise");
                 StartCoroutine(CatsMeow());
             }
             else if (catAction < addCharacterChances + changeEmailChances + catNoiseNoAction + emailSubmission)
             {
-                Debug.Log("Submit");
                 Vector2 enterPos = GameObject.FindGameObjectWithTag(this.tagsheet[3, 0]).transform.position;
                 StartCoroutine(MoveCat((int)enterPos.x, (int)enterPos.y));
-                // The furthest right spot
-                //this.nextCatPosition.x = 5;
-                //this.nextCatPosition.y = 1;
 
                 //this.client.submitEmail();
             }
@@ -186,6 +180,12 @@ public class Cat : MonoBehaviour
             this.nextCatPosition.x = Random.Range(0, 3);
             this.nextCatPosition.y = Random.Range(0, 3);
 
+
+            while(this.nextCatPosition.x == this.catSprite.transform.position.x)
+            {
+                this.nextCatPosition.x = (this.nextCatPosition.x + 1) % 3;
+            }
+
             string locationTag = tagsheet[(int)nextCatPosition.x, (int)nextCatPosition.y];
             newLocation = GameObject.FindGameObjectWithTag(locationTag).transform.position;
         }
@@ -204,7 +204,7 @@ public class Cat : MonoBehaviour
 
         this.getCatReadyForJump();
         Debug.Log("switchPosifShould");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(this.catDelay / 5f);
         Debug.Log("changePos");
         Debug.Log("Coords: " + this.nextCatPosition.x + " " + this.nextCatPosition.y);
 
@@ -229,7 +229,7 @@ public class Cat : MonoBehaviour
         {
             Vector2 halfway = Vector2.Lerp(oldPosition, newLocation, f);
             this.catSprite.transform.position = halfway;
-            yield return new WaitForSeconds(.005f);
+            yield return new WaitForSeconds(this.catDelay / 40f);
         }
 
 
@@ -245,6 +245,11 @@ public class Cat : MonoBehaviour
             this.catSprites[3].GetComponent<SpriteRenderer>().enabled = false;
             this.catSprites[1].GetComponent<SpriteRenderer>().enabled = true;
         }
+    }
+
+    public void speedUpCat()
+    {
+        this.catDelay -= .25f;
     }
 
 }

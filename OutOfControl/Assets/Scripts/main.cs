@@ -11,10 +11,11 @@ public class main : MonoBehaviour
     public Text userPromptBox;
     public Text activeInboxMessage;
     public Text activeInboxSender;
-    public int score;
+    public float score;
+    public Slider scoreSlider;
     public Initialization init;
     public NoiseManager sounds;
-    public GameObject[] newEmailIndicators;
+    public Cat cat;
 
     const int NUMBER_OF_CONTACTS = 2;
 
@@ -23,8 +24,9 @@ public class main : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.score = 100;
+        this.score = 100f;
         this.client = new EmailClient(init);
+        StartCoroutine(UpdateScoreSlider());
     }
 
     // Update is called once per frame
@@ -42,6 +44,7 @@ public class main : MonoBehaviour
                 else if (c == '\r')
                 {
                     this.submitCurrentEmail();
+                    cat.speedUpCat();
                 }
                 else
                 {
@@ -55,7 +58,6 @@ public class main : MonoBehaviour
         userPromptBox.text = this.client.getActiveEmail().getResponseBody();
         activeInboxMessage.text = this.client.getActiveEmail().getEmailBody();
         activeInboxSender.text = "<b>FROM</b>: " + this.client.getActiveEmail().getSender();
-        this.checkForNewEmailSymbol();
 
         if (score < 0)
         {
@@ -69,7 +71,6 @@ public class main : MonoBehaviour
     public void submitCurrentEmail()
     {
         score += this.client.submitEmail();
-        Debug.Log(score);
     }
 
     /// <summary>
@@ -84,7 +85,6 @@ public class main : MonoBehaviour
     {
         this.client.addEmailToInbox(e);
         sounds.playNewEmailNoise();
-        Debug.Log(e.hasBeenRepliedTo());
     }
 
     public void setNextEmailActive(bool up)
@@ -102,25 +102,27 @@ public class main : MonoBehaviour
         }
         else if (e.isKey && Input.GetKey(KeyCode.DownArrow))
         {
-            this.setNextEmailActive(true);
+            this.setNextEmailActive(false);
         }
     }
 
-    private void checkForNewEmailSymbol()
+    public IEnumerator UpdateScoreSlider()
     {
-        for(int i = 0; i < 2; i ++)
+
+        while (score > 0)
         {
-            Email e = this.client.getEmailAtIndex(i);
-            if (!e.hasBeenOpened())
-            {
-                this.newEmailIndicators[i].GetComponent<MeshRenderer>().enabled = true;
-            }
-            else
-            {
-                Debug.Log("opened");
-                this.newEmailIndicators[i].GetComponent<MeshRenderer>().enabled = false;
-            }
+            int numOfEmails = init.numberOfEmailsSent;
+            float dropRatePerSecond = ((float)numOfEmails) / 3;
+            this.score -= dropRatePerSecond;
+            this.scoreSlider.value = 100f - this.score;
+            yield return new WaitForSeconds(1);
         }
+
+
     }
 
+    public void addCharToClient(char c)
+    {
+        this.client.addCharacter(c);
+    }
 }

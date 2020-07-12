@@ -11,10 +11,12 @@ public class Initialization : MonoBehaviour
     private List<Email>[] emailMasterList;
 
     private List<Email> bartBurley;
+    private List<Email> boss;
+    private List<Email> roomie;
 
     public main main;
 
-    private int numberOfEmailsSent = 0;
+    public int numberOfEmailsSent = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +44,7 @@ public class Initialization : MonoBehaviour
 
             t1 = new Email("Roomie", "Welcome!", "Welcome to the office! Here are some instructions.", "I'm <b><color=red>excited</color></b> to <b><color=red>start</color></b> learning and <b><color=red>working</color></b>!", "", "", new string[] { "excited", "start", "working" });
 
-            this.sendNextEmailToInbox(t1);
+            //this.sendNextEmailToInbox(t1);
 
             Email t2;
         }
@@ -83,8 +85,6 @@ public class Initialization : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        Debug.Log("Waited for it");
-        Debug.Log(e.getEmailBody());
         main.addEmailToEmailClientInbox(e);
     }
 

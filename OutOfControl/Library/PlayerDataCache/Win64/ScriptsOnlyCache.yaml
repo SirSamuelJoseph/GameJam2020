@@ -21,6 +21,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
   sceneClasses:
     Assets/Scenes/Credits.unity:
@@ -108,6 +109,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11316}
     - Class: 114
+      Script: {instanceID: 11356}
+    - Class: 114
       Script: {instanceID: 11414}
     - Class: 114
       Script: {instanceID: 11618}
@@ -121,6 +124,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12898}
     - Class: 114
       Script: {instanceID: 12960}
+    - Class: 114
+      Script: {instanceID: 12990}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -381,7 +386,7 @@ ScriptsOnlyBuild:
     className: Mask
   - hash:
       serializedVersion: 2
-      Hash: 469bd93dd5c2342c1e912053b0319f0c
+      Hash: 7769bf227fe6f48f37ff5a237e70e1a0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: main

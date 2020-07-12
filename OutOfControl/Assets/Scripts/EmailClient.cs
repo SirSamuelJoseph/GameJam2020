@@ -48,14 +48,15 @@ public class EmailClient
     /// <param name="up"></param>
     public void setNextEmailActive(bool up)
     {
-        if (up && activeEmailIndex > 0)
+        if (up && activeEmailIndex > 0 && this.inbox[activeEmailIndex - 1] != null)
         {
             activeEmailIndex--;
         }
-        else if (!up && activeEmailIndex < this.inbox.Length)
+        else if (!up && activeEmailIndex < this.inbox.Length - 1 && this.inbox[activeEmailIndex + 1] != null)
         {
             activeEmailIndex++;
         }
+        Debug.Log(activeEmailIndex);
         this.setActiveEmail(inbox[activeEmailIndex]);
     }
 
@@ -92,10 +93,11 @@ public class EmailClient
         Email e = this.getActiveEmail();
         // Check to see if keywords are included
         bool keywordMatch = e.hasKeywords(userInput);
-        Debug.Log("Keyboard Match? " + keywordMatch);
 
         //Score this email
         int scoreModifier = e.scoreResponse(userInput);
+
+        e.setOpened();
 
         if (!keywordMatch && !e.hasBeenRepliedTo())
         {
