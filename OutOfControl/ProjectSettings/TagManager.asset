@@ -3,7 +3,20 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - rightBottom
+  - rightCenter
+  - rightTop
+  - centerBottom
+  - centerCenter
+  - centerTop
+  - leftBottom
+  - leftCenter
+  - leftTop
+  - capsLock
+  - Enter
+  - Arrows
+  - catPosition
   layers:
   - Default
   - TransparentFX

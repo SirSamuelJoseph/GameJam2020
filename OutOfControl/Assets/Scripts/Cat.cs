@@ -21,6 +21,8 @@ public class Cat : MonoBehaviour
     private Vector2 catPosition;
     private Vector2 nextCatPosition;
 
+    private GameObject catSprite;
+
     private string charleftbottom = "asdzxc";
     private string charleftcenter = "qweasd";
     private string charleftup = "1234qwe";
@@ -32,6 +34,9 @@ public class Cat : MonoBehaviour
     private string charrighttop = "uiop[7890";
 
     private string[,] charsheet;
+    private string[,] tagsheet;
+
+    public GameObject[] catSprites;
 
 
     // Start is called before the first frame update
@@ -48,6 +53,17 @@ public class Cat : MonoBehaviour
         };
         // No idea why I need to do it like this but apparently I do
         charsheet = charsheet2;
+        
+        catSprite = GameObject.FindGameObjectWithTag("catPosition");
+
+        string[,] tagsheet = {
+            { "leftBottom", "leftCenter", "leftTop" },
+            { "centerBottom", "centerCenter", "centerTop" },
+            { "rightBottom", "rightCenter", "rightTop" },
+            { "Enter", "Arrows", "capsLock" }
+        };
+
+        this.tagsheet = tagsheet;
 
     }
 
@@ -66,16 +82,13 @@ public class Cat : MonoBehaviour
             //if (catAction < addCharacterChances)
             if (true)
             {
-
-                // Random spots
-                this.nextCatPosition.x = Random.Range(0, 3);
-                this.nextCatPosition.y = Random.Range(0, 3);
+                StartCoroutine(MoveCat());
 
                 string lettersToChoose = this.charsheet[(int)nextCatPosition.x, (int)nextCatPosition.y];
                 char charToAdd = lettersToChoose[Random.Range(0, lettersToChoose.Length)];
 
                 Debug.Log("X: " + nextCatPosition.x + " Y: " + nextCatPosition.y);
-                Debug.Log("Char " + charToAdd);
+                //Debug.Log("Char " + charToAdd);
             }
             else if (catAction < addCharacterChances + changeEmailChances)
             {
@@ -103,20 +116,52 @@ public class Cat : MonoBehaviour
             }
 
             timeSinceLastCatIncident = 0;
-            this.getCatReadyForJump();
         }
     }
 
     private void getCatReadyForJump()
     {
-        if (this.catPosition.x < this.nextCatPosition.x)
+
+        if (this.catPosition.x > this.nextCatPosition.x)
         {
-            // Show right facing cat
+            Debug.Log("Left");
+            foreach (GameObject g in this.catSprites)
+            {
+                g.GetComponent<SpriteRenderer>().enabled = false;
+            }
+
+            this.catSprites[0].GetComponent<SpriteRenderer>().enabled = true;
         }
-        else if (this.catPosition.x > this.nextCatPosition.x)
+        else if (this.catPosition.x < this.nextCatPosition.x)
         {
-            // show left facing cat
+            Debug.Log("right");
+
+            foreach (GameObject g in this.catSprites)
+            {
+                g.GetComponent<SpriteRenderer>().enabled = false;
+            }
+
+            this.catSprites[1].GetComponent<SpriteRenderer>().enabled = true;
         }
+    }
+
+    public IEnumerator MoveCat()
+    {
+
+        // Random spots
+        this.nextCatPosition.x = Random.Range(0, 3);
+        this.nextCatPosition.y = Random.Range(0, 3);
+
+        this.getCatReadyForJump();
+        Debug.Log("switchPosifShould");
+        yield return new WaitForSeconds(2f);
+        Debug.Log("changePos");
+
+        this.catPosition = new Vector2(this.nextCatPosition.x, this.nextCatPosition.y);
+
+        string locationTag = tagsheet[(int)nextCatPosition.x, (int)nextCatPosition.y];
+        Vector2 location = GameObject.FindGameObjectWithTag(locationTag).transform.position;
+        this.catSprite.transform.position = location;
     }
 
 }
