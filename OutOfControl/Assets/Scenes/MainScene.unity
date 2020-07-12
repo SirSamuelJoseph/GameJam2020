@@ -454,7 +454,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 10101011110011111111111110101110101101000001111111111010101011
+  m_Text: 
 --- !u!222 &71848654
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -581,9 +581,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '<b>That Guy</b>
+  m_Text: '<b>IT</b>
 
-    B.S.'
+    Computer'
 --- !u!222 &91924336
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2025,7 +2025,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
+  m_Text: 
 --- !u!222 &680587416
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2529,7 +2529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fece26dea0917f14292323501206cee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  catChaosModeActive: 0
+  catChaosModeActive: 1
   main: {fileID: 1642210751}
   sound: {fileID: 1324648441}
   catSprites:
@@ -4357,7 +4357,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
+  m_Text: 
 --- !u!222 &1638474215
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4379,7 +4379,7 @@ GameObject:
   - component: {fileID: 1642210755}
   m_Layer: 0
   m_Name: main
-  m_TagString: Untagged
+  m_TagString: main
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4432,7 +4432,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   main: {fileID: 1642210751}
+  cat: {fileID: 895641934}
   numberOfEmailsSent: 0
+  startEmailFlood: 0
 --- !u!1 &1660212846
 GameObject:
   m_ObjectHideFlags: 0
@@ -4786,9 +4788,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '<b>Mom </b>
+  m_Text: '<b>Bart </b>
 
-    You know.'
+    Burritos :)'
 --- !u!222 &1745157797
 CanvasRenderer:
   m_ObjectHideFlags: 0

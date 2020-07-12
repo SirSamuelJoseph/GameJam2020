@@ -32,7 +32,7 @@ public class main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        userInputBox.text = this.client.getActiveEmail().getUserText();
+
         if (Input.anyKeyDown)
         {
             foreach(char c in Input.inputString)
@@ -43,6 +43,7 @@ public class main : MonoBehaviour
                 }
                 else if (c == '\r')
                 {
+                    Debug.Log("submit attempt");
                     this.submitCurrentEmail();
                     cat.speedUpCat();
                 }
@@ -55,14 +56,14 @@ public class main : MonoBehaviour
             userInputBox.text = this.client.getActiveEmail().getUserText();
         }
 
-        userPromptBox.text = this.client.getActiveEmail().getResponseBody();
-        activeInboxMessage.text = this.client.getActiveEmail().getEmailBody();
-        activeInboxSender.text = "<b>FROM</b>: " + this.client.getActiveEmail().getSender();
+        
 
         if (score < 0)
         {
             gameOver();
         }
+
+        this.updateDisplay();
     }
 
     /// <summary>
@@ -70,7 +71,8 @@ public class main : MonoBehaviour
     /// </summary>
     public void submitCurrentEmail()
     {
-        score += this.client.submitEmail();
+        int mod = this.client.submitEmail();
+        score += mod;
     }
 
     /// <summary>
@@ -90,6 +92,7 @@ public class main : MonoBehaviour
     public void setNextEmailActive(bool up)
     {
         this.client.setNextEmailActive(up);
+        this.updateDisplay();
     }
 
     private void OnGUI()
@@ -124,5 +127,22 @@ public class main : MonoBehaviour
     public void addCharToClient(char c)
     {
         this.client.addCharacter(c);
+    }
+
+    public void updateDisplay()
+    {
+        userPromptBox.text = this.client.getActiveEmail().getResponseBody();
+
+        if (!this.client.getActiveEmail().hasBeenRepliedTo())
+        {
+            activeInboxMessage.text = this.client.getActiveEmail().getEmailBody();
+        }
+        else
+        {
+            activeInboxMessage.text = this.client.getActiveEmail().getBadResponseBody();
+        }
+
+
+        activeInboxSender.text = "<b>FROM</b>: " + this.client.getActiveEmail().getSender();
     }
 }

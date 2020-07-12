@@ -146,7 +146,7 @@ public class Email
         int tempscore = 0;
 
         string[] userTokens = userInput.Split(' ');
-        string[] masterTokens = this.responseBody.Split(' ');
+        string[] masterTokens = this.responseBody.ToLower().Split(' ');
 
 
         // First, give points if all keywords are present
@@ -174,7 +174,6 @@ public class Email
             }
         }
 
-        Debug.Log(keywords.Length);
         return tempscore;
     }
 
@@ -224,5 +223,10 @@ public class Email
     public void setOpened()
     {
         this.opened = true;
+    }
+
+    public string getBadResponseBody()
+    {
+        return this.badResponseBody;
     }
 }

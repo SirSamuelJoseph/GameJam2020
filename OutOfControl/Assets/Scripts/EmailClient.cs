@@ -15,12 +15,14 @@ public class EmailClient
     private int activeEmailIndex;
 
     public Initialization init;
+    public GameObject main;
 
     public EmailClient(Initialization init)
     {
         this.inbox = new Email[2];
         this.activeEmail = null;
         this.init = init;
+        main = GameObject.FindGameObjectWithTag("main");
     }
 
     /// <summary>
@@ -56,7 +58,6 @@ public class EmailClient
         {
             activeEmailIndex++;
         }
-        Debug.Log(activeEmailIndex);
         this.setActiveEmail(inbox[activeEmailIndex]);
     }
 
@@ -82,6 +83,7 @@ public class EmailClient
         {
             this.activeEmail = e;
         }
+        main.GetComponent<main>().updateDisplay();
     }
 
     /// <summary>
@@ -92,24 +94,26 @@ public class EmailClient
         string userInput = this.activeEmail.getUserText();
         Email e = this.getActiveEmail();
         // Check to see if keywords are included
-        bool keywordMatch = e.hasKeywords(userInput);
+        bool keywordMatch = e.hasKeywords(userInput.ToLower());
 
         //Score this email
-        int scoreModifier = e.scoreResponse(userInput);
+        int scoreModifier = e.scoreResponse(userInput.ToLower());
 
         e.setOpened();
 
-        if (!keywordMatch && !e.hasBeenRepliedTo())
+        if (!keywordMatch && !e.hasBeenRepliedTo() && e.getBadResponseBody() != "")
         {
             // Add this email to the inbox so they have to deal with it again
             // Set replied 
             e.setReplied();
-            init.waitAndSend(3f, e);
+            e.resetUserText();
+            init.waitAndSend(2f, e);
         }
         else
         {
             int senderIndex = this.senderNameToInboxPosition(e.getSender());
-            init.sendNextEmailInChain(senderIndex);
+            init.setSenderReadyForNext(this.senderNameToInboxPosition(e.getSender()));
+            e.resetUserText();
 
         }
 
@@ -125,6 +129,12 @@ public class EmailClient
                 return 0;
             case "Bart Burly":
                 return 1;
+            case "Jasmine Shuratea":
+                return 2;
+            case "Jefferey I. Tee":
+                return 3;
+            case "Alexandra Ginsburg":
+                return 4;
             default:
                 return -1;
         }

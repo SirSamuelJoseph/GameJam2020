@@ -13,10 +13,10 @@ public class Cat : MonoBehaviour
 
     public NoiseManager sound;
 
-    const int addCharacterChances = 10;
+    const int addCharacterChances = 50;
     const int changeEmailChances = 15;
     const int catNoiseNoAction = 10;
-    const int emailSubmission = 15;
+    const int emailSubmission = 5;
 
     private Vector2 catPosition;
     private Vector2 nextCatPosition;
@@ -107,8 +107,7 @@ public class Cat : MonoBehaviour
             {
                 Vector2 enterPos = GameObject.FindGameObjectWithTag(this.tagsheet[3, 0]).transform.position;
                 StartCoroutine(MoveCat((int)enterPos.x, (int)enterPos.y));
-
-                //this.client.submitEmail();
+                main.submitCurrentEmail();
             }
 
             timeSinceLastCatIncident = 0;
