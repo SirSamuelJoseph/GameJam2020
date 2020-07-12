@@ -222,4 +222,9 @@ public class Email
             this.userText.Remove(this.userText.Length - 1, 1);
         }
     }
+
+    public void setOpened()
+    {
+        this.opened = true;
+    }
 }

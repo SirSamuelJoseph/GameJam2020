@@ -39,6 +39,11 @@ public class Initialization : MonoBehaviour
         if (!tutorialEmailsFinished)
         {
             Email t1;
+
+            t1 = new Email("Roomie", "Welcome!", "Welcome to the office! Here are some instructions.", "I'm <b><color=red>excited</color></b> to <b><color=red>start</color></b> learning and <b><color=red>working</color></b>!", "", "", new string[] { "excited", "start", "working" });
+
+            this.sendNextEmailToInbox(t1);
+
             Email t2;
         }
     }

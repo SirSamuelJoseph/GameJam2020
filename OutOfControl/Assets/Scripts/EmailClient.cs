@@ -39,6 +39,7 @@ public class EmailClient
     public void setActiveEmail(Email e)
     {
         this.activeEmail = e;
+        e.setOpened();
     }
 
     /// <summary>
@@ -130,5 +131,10 @@ public class EmailClient
     public void backspace()
     {
         this.activeEmail.backspace();
+    }
+
+    public Email getEmailAtIndex(int index)
+    {
+        return this.inbox[index];
     }
 }

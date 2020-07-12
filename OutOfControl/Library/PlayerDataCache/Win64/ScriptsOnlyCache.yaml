@@ -45,21 +45,21 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11152}
+      Script: {instanceID: 11158}
     - Class: 114
-      Script: {instanceID: 11310}
+      Script: {instanceID: 11316}
     - Class: 114
-      Script: {instanceID: 11350}
+      Script: {instanceID: 11356}
     - Class: 114
-      Script: {instanceID: 11470}
+      Script: {instanceID: 11476}
     - Class: 114
-      Script: {instanceID: 11742}
+      Script: {instanceID: 11748}
     - Class: 114
-      Script: {instanceID: 12126}
+      Script: {instanceID: 12132}
     - Class: 114
-      Script: {instanceID: 12602}
+      Script: {instanceID: 12608}
     - Class: 114
-      Script: {instanceID: 12954}
+      Script: {instanceID: 12960}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -104,18 +104,28 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11408}
+      Script: {instanceID: 11158}
     - Class: 114
-      Script: {instanceID: 11612}
+      Script: {instanceID: 11316}
     - Class: 114
-      Script: {instanceID: 11672}
+      Script: {instanceID: 11414}
     - Class: 114
-      Script: {instanceID: 11742}
+      Script: {instanceID: 11618}
     - Class: 114
-      Script: {instanceID: 12892}
+      Script: {instanceID: 11678}
     - Class: 114
-      Script: {instanceID: 12954}
+      Script: {instanceID: 11748}
+    - Class: 114
+      Script: {instanceID: 12608}
+    - Class: 114
+      Script: {instanceID: 12898}
+    - Class: 114
+      Script: {instanceID: 12960}
     - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 135
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
@@ -124,6 +134,12 @@ ScriptsOnlyBuild:
     - Class: 212
       Script: {instanceID: 0}
     - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
       Script: {instanceID: 0}
     Assets/Scenes/Title Screen.unity:
     - Class: 1
@@ -147,23 +163,23 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11152}
+      Script: {instanceID: 11158}
     - Class: 114
-      Script: {instanceID: 11310}
+      Script: {instanceID: 11316}
     - Class: 114
-      Script: {instanceID: 11350}
+      Script: {instanceID: 11356}
     - Class: 114
-      Script: {instanceID: 11558}
+      Script: {instanceID: 11564}
     - Class: 114
-      Script: {instanceID: 11742}
+      Script: {instanceID: 11748}
     - Class: 114
-      Script: {instanceID: 11764}
+      Script: {instanceID: 11770}
     - Class: 114
-      Script: {instanceID: 12126}
+      Script: {instanceID: 12132}
     - Class: 114
-      Script: {instanceID: 12602}
+      Script: {instanceID: 12608}
     - Class: 114
-      Script: {instanceID: 12954}
+      Script: {instanceID: 12960}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -365,7 +381,7 @@ ScriptsOnlyBuild:
     className: Mask
   - hash:
       serializedVersion: 2
-      Hash: 7b0018d5838600f379f2f23669a14f83
+      Hash: 469bd93dd5c2342c1e912053b0319f0c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: main

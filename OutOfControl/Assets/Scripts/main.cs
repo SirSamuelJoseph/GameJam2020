@@ -8,9 +8,13 @@ public class main : MonoBehaviour
 {
     private EmailClient client;
     public Text userInputBox;
+    public Text userPromptBox;
+    public Text activeInboxMessage;
+    public Text activeInboxSender;
     public int score;
     public Initialization init;
     public NoiseManager sounds;
+    public GameObject[] newEmailIndicators;
 
     const int NUMBER_OF_CONTACTS = 2;
 
@@ -29,22 +33,15 @@ public class main : MonoBehaviour
         userInputBox.text = this.client.getActiveEmail().getUserText();
         if (Input.anyKeyDown)
         {
-            while (Input.GetKey(KeyCode.Backspace))
-            {
-                this.client.backspace();
-            }
-
             foreach(char c in Input.inputString)
             {
                 if (c == '\b')
                 {
                     this.client.backspace();
-                    Debug.Log("back");
                 }
                 else if (c == '\r')
                 {
                     this.submitCurrentEmail();
-                    Debug.Log("Submitted");
                 }
                 else
                 {
@@ -54,6 +51,11 @@ public class main : MonoBehaviour
 
             userInputBox.text = this.client.getActiveEmail().getUserText();
         }
+
+        userPromptBox.text = this.client.getActiveEmail().getResponseBody();
+        activeInboxMessage.text = this.client.getActiveEmail().getEmailBody();
+        activeInboxSender.text = "<b>FROM</b>: " + this.client.getActiveEmail().getSender();
+        this.checkForNewEmailSymbol();
 
         if (score < 0)
         {
@@ -88,6 +90,37 @@ public class main : MonoBehaviour
     public void setNextEmailActive(bool up)
     {
         this.client.setNextEmailActive(up);
+    }
+
+    private void OnGUI()
+    {
+        Event e = Event.current;
+
+        if (e.isKey && Input.GetKey(KeyCode.UpArrow))
+        {
+            this.setNextEmailActive(true);
+        }
+        else if (e.isKey && Input.GetKey(KeyCode.DownArrow))
+        {
+            this.setNextEmailActive(true);
+        }
+    }
+
+    private void checkForNewEmailSymbol()
+    {
+        for(int i = 0; i < 2; i ++)
+        {
+            Email e = this.client.getEmailAtIndex(i);
+            if (!e.hasBeenOpened())
+            {
+                this.newEmailIndicators[i].GetComponent<MeshRenderer>().enabled = true;
+            }
+            else
+            {
+                Debug.Log("opened");
+                this.newEmailIndicators[i].GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
     }
 
 }
